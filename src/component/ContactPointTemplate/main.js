@@ -7,13 +7,25 @@ import Search from './MenuComponent/Search/Search'
 
 
 class Main extends Component {
+    state = {
+        count : "1"
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:3000/user/count', {
+            method: "GET",
+        })
+        .then(response => response.json())
+        .then(data => this.setState({ count: data }));
+    }
+
     render() {
         return (
             <Router>
                 <div>
                     <div>
                         <div>
-                            <h2>저장된 연락처</h2>
+                            <h2>저장된 연락처 총 {this.state.count}개</h2>
                         </div>
                         <div>
                             <button><Link to='/AddContactPoint'>추가</Link></button>
