@@ -38,6 +38,10 @@ class AddContactPoint extends Component {
         this.setState({name : e.target.value});
     }
 
+    setTel = (e) =>{
+        this.setState({tel : e.target.value});
+    }
+
     render() {
         return (
             <div>
@@ -47,13 +51,13 @@ class AddContactPoint extends Component {
                     {/* <h4>{JSON.stringify(this.state.group)}</h4> */}
                     {
                         this.state.groupList.map((groupInfo,idx)=>{
-                            return <p key={`_${idx}`}>{groupInfo.name}</p>
+                            return <p  key={`_${idx}`}>{groupInfo.name}</p>
                         })
                     }
                 </div>
                 <div>
                     <span>name</span>   <input name="name" placeholder="이름" type="text" onChange = {this.setName} value = {this.state.name}></input><br></br>
-                    <span>tel</span>    <input name="tel" placeholder="전화번호" type="text"></input><br></br>
+                    <span>tel</span>    <input name="tel" placeholder="전화번호" type="text" onChange = {this.setTel} value = {this.state.tel}></input><br></br>
                     <span>email</span>  <input name="email" placeholder="메일" type="text"></input><br></br>
                     <span>bookmark</span> <input name="bookmark" placeholder="즐겨찾기" type="text"></input><br></br>
                     <span>memo</span>   <input name="memo" placeholder="메모" type="text"></input><br></br>
