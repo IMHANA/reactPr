@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 
 class First extends Component {
-    state = { name : "1",
-            userName: "2" }
+    state = { 
+        name : "1",
+        userName: "2" 
+    }
 
     componentDidMount() {
         fetch('http://localhost:3000/group/list', {
