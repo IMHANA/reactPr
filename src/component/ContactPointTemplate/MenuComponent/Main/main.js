@@ -7,7 +7,8 @@ import Search from '../Search/Search'
 
 class Main extends Component {
     state = {
-        count : "1"
+        count : "1",
+        userList: []
     }
 
     componentDidMount() {
@@ -16,6 +17,12 @@ class Main extends Component {
         })
         .then(response => response.json())
         .then(data => this.setState({ count: data }));
+
+        fetch('http://localhost:3000/user/list', {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(data => this.setState({ userList: data }))
     }
 
     render() {
@@ -35,6 +42,19 @@ class Main extends Component {
                 </div>
                 <button><Link to='/groupList'>그룹</Link></button>
                 <div>연락처 리스트=============</div>
+                <div>
+                    {this.state.userList.map((userInfo, idx)=>{
+                        return (
+                            <div key={`${idx}`}>
+                                <span>이름: {userInfo.name}</span>
+                                <span>전화번호: {userInfo.tel}</span>
+                                <span>메일: {userInfo.email}</span>
+                                <span>즐찾: {userInfo.bookmark}</span>
+                                <span>메모: {userInfo.memo}</span>
+                                <span>그룹: {userInfo.groupId}</span>
+                            </div>
+                    )})}
+                </div>
             </div>
         );
     }
