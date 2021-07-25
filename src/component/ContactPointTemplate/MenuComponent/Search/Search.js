@@ -4,13 +4,22 @@ class Search extends Component {
     state = {
         userName: '',
         userId: '',
-        userList: '',
         userNameResult: '',
         userIdResult: '',
+
+        groupList: [],
         groupName: '',
         groupId: '',
         groupNameResult: '',
         groupIdResult: ''
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:3000/group/list', {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(data => this.setState({ groupList: data }))
     }
 
     //const uName = {userName};
@@ -35,12 +44,18 @@ class Search extends Component {
 
 
     //인풋값 바뀔때마다 유저이름 state에 넣어주기
-    handleChange = (e) => {
-        console.log('여긴 handleChange',e.target.value);
+    selectUser = (e) => {
+        console.log('여긴 selectUser',e.target.value);
         // this.setState({
         //     [e.target.userName]: e.target.value,
         // })
         this.setState({userName: e.target.value});
+    }
+
+    //값 바뀔때마다 그룹이름 state에 넣어주기
+    selectGroup = (e) => {
+        console.log('여긴 selectGroup',e.target.value);
+        this.setState({groupName: e.target.value});
     }
 
     search = (e) => {
@@ -102,11 +117,31 @@ class Search extends Component {
         return (
             <div>
                 <h1>Search</h1>
+                <div>
                 <span>이름으로 검색</span>
-                <input name="name" type="text" onChange= {this.handleChange}
+                <input name="name" type="text" onChange= {this.selectUser}
                 value= {this.state.userName}></input>
                 <button onClick={this.search}>검색</button>
+                </div>
+
+                <span>그룹으로 검색</span>
+                <select id="selectGroup" >
+                    <option>선택하세요</option>
+                    {this.state.groupList.map((groupInfo, idx) => {
+                        return (
+                            <option value={groupInfo.id} key={`${idx}`} onChange={this.selectGroup}>
+                                {groupInfo.name}
+                            </option>
+                        )
+                    })}
+                </select>
+                {/* <input name="name" type="text" onChange= {this.handleChange}
+                value= {this.state.userName}></input>
+                <button onClick={this.search}>검색</button> */}
+
                 <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].name }</div>
+                <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].tel }</div>
+                <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].email }</div>
                 
             </div>
         );
