@@ -8,7 +8,8 @@ import Search from '../Search/Search'
 class Main extends Component {
     state = {
         count : "1",
-        userList: []
+        userList: [],
+        bookmarked: []
     }
 
     componentDidMount() {
@@ -23,6 +24,12 @@ class Main extends Component {
         })
         .then(res => res.json())
         .then(data => this.setState({ userList: data }))
+
+        fetch('http://localhost:3000/user/bookmark', {
+            method: "GET",
+        })
+        .then(res => res.json())
+        .then(data => this.setState({ bookmarked: data}))
     }
 
     render() {
@@ -38,7 +45,18 @@ class Main extends Component {
                 </div>
                 <div>즐겨찾기</div>
                 <div>즐겨찾기 되어있는 연락처 리스트 <br></br>
-                ============
+                {
+                    this.state.bookmarked.map((_user, _idx) => {
+                        return (
+                            <>
+                                <div>--------------------------</div>
+                                <div>이름: {_user.name || '이름은 없음'}</div>
+                                <div>메일: {_user.email || '메일은 없음'}</div>
+                                <div>전화: {_user.tel || '전화는 없음'}</div>
+                            </>
+                        )
+                    })
+                }
                 </div>
                 <button><Link to='/groupList'>그룹</Link></button>
                 <div>연락처 리스트=============</div>
