@@ -4,14 +4,14 @@ class Search extends Component {
     state = {
         userName: '',
         userId: '',
-        userNameResult: '',
+        userNameResult: [],
         userIdResult: '',
 
         groupList: [],
         groupName: '',
         groupId: '',
         groupNameResult: '',
-        groupIdResult: ''
+        groupIdResult: []
     }
 
     componentDidMount() {
@@ -54,8 +54,16 @@ class Search extends Component {
 
     //값 바뀔때마다 그룹이름 state에 넣어주기
     selectGroup = (e) => {
-        console.log('여긴 selectGroup',e.target.value);
-        this.setState({groupName: e.target.value});
+        const target = e.target.value;
+        console.log('여긴 selectGroup',target);
+        this.setState({groupName: target});
+        if (target !== '' && target !== 'null' && target !== '선택하세요') {
+            fetch(`http://localhost:3000/user/group/${target}`,{
+                method:'GET'
+            })
+            .then(response => response.json())
+            .then(data => this.setState({ groupIdResult: data }))
+        }
     }
 
     search = (e) => {
@@ -77,11 +85,14 @@ class Search extends Component {
         // .then(response => response.json())
         // .then(data =>  this.setState(JSON.stringify({ userNameResult: data})))
 
+
         fetch(`http://localhost:3000/user/${this.state.userName}`, {
             method:"GET",
             })
         .then(response => response.json())
         .then(data =>  this.setState({ userNameResult: data}))
+
+        
         //.then(data =>  console.log(data))
 
         // .then(data =>  {
@@ -113,7 +124,7 @@ class Search extends Component {
 
 
     render() {
-        
+        console.log(this.state)
         return (
             <div>
                 <h1>Search</h1>
@@ -125,11 +136,11 @@ class Search extends Component {
                 </div>
 
                 <span>그룹으로 검색</span>
-                <select id="selectGroup" >
+                <select id="selectGroup" onChange={this.selectGroup}>
                     <option>선택하세요</option>
                     {this.state.groupList.map((groupInfo, idx) => {
                         return (
-                            <option value={groupInfo.id} key={`${idx}`} onChange={this.selectGroup}>
+                            <option value={groupInfo.id} key={`${idx}`} >
                                 {groupInfo.name}
                             </option>
                         )
@@ -139,9 +150,50 @@ class Search extends Component {
                 value= {this.state.userName}></input>
                 <button onClick={this.search}>검색</button> */}
 
-                <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].name }</div>
+                {/* <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].name }</div>
                 <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].tel }</div>
-                <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].email }</div>
+                <div id='userInfo'>{this.state.userNameResult&&this.state.userNameResult[0].email }</div> */}
+
+                {
+                    this.state.userNameResult.map((item, idx) => {
+                        return (
+                            <>
+                                <div>--------------------------</div>
+                                {item.name ? <div id='userInfo'>{item.name}</div> : <div>name: 없음</div>}
+                                {/* {item.name && item.name} */}
+                                {item.email || '이메일 입력안함'}
+                                {/* {item.email ? <div id='userInfo'>{item.email}</div> : <div>email: 없음</div>} */}
+                                {item.tel ? <div id='userInfo'>{item.tel}</div> : <div>tel: 없음</div>}
+                            </>
+                        
+
+                        )
+                        //return [item.email ? <div id='userInfo'>{item.email }</div> : <div>email: 없음</div>];
+                    })
+                } 
+
+                {
+                    this.state.groupIdResult.map((groupInfo, idx) => {
+                        console.log('groupInfo => ', groupInfo);
+                        return (
+                            <>
+                                <div>--------------------------</div>
+                                <div>이름: {groupInfo.name || '이름은 없음'}</div>
+                                <div>메일: {groupInfo.email || '메일은 없음'}</div>
+                                <div>전화: {groupInfo.tel || '전화는 없음'}</div>
+                            </>
+                        )
+                    })
+                } 
+
+                {/* {
+                    this.state.groupIdResult.map((groupInfo, idx) => {
+                        return <div key={`${idx}`}>{groupInfo.email}</div>
+                })} */}
+
+                {/* <div>{this.state.groupIdResult&&this.state.groupIdResult[0] }</div>
+                <div>{this.state.groupIdResult&&this.state.groupIdResult[0].tel }</div>
+                <div>{this.state.groupIdResult&&this.state.groupIdResult[0].email }</div> */}
                 
             </div>
         );
