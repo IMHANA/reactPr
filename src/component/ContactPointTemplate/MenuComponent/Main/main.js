@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import AddContactPoint from '../AddContactPoint/AddContactPoint';
-import GroupList from '../GroupList/GroupList';
+import Group from '../GroupList/GroupList';
 import Search from '../Search/Search'
 
 class Main extends Component {
@@ -58,7 +58,7 @@ class Main extends Component {
                     })
                 }
                 </div>
-                <button><Link to='/groupList'>그룹</Link></button>
+                <button><Link to='/group'>그룹</Link></button>
                 <div>연락처 리스트=============</div>
                 <div>
                     {this.state.userList.map((userInfo, idx)=>{

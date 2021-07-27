@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 
 import Main from './MenuComponent/Main/main';
 import AddContactPoint from './MenuComponent/AddContactPoint/AddContactPoint';
-import GroupList from './MenuComponent/GroupList/GroupList';
+import Group from './MenuComponent/GroupList/GroupList';
 import Search from './MenuComponent/Search/Search'
 
 
@@ -26,7 +26,7 @@ class MainTemplate extends Component {
                 <Switch>
                     <Route exact path='/' component={ Main } />
                     <Route path='/addContactPoint' component={ AddContactPoint } />
-                    <Route path='/groupList' component={ GroupList } />
+                    <Route path='/group' component={ Group } />
                     <Route path='/search' component={ Search } />
                 </Switch>
             </Router>
