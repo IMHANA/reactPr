@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GroupItem from './GroupItem';
+import './GroupItem.css'
 
 class GroupList extends Component {
 
@@ -24,7 +25,10 @@ class GroupList extends Component {
             <div className="groupList"/>
                 {this.state.groupList.map((group, idx) => {
                     return (
-                        <div>{group.name}<GroupItem/></div>
+                        <>
+                        <div><GroupItem name={group.name}/></div>
+                        
+                        </>
                     )          
                 })}
             </div>
