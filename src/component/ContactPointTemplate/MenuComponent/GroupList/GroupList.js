@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GroupItem from './GroupItem';
-import './GroupItem.css'
 
 class GroupList extends Component {
 
@@ -18,6 +17,20 @@ class GroupList extends Component {
         .then(data => this.setState({groupList: data}))
     }
 
+    callGroupName(value) {
+        fetch('http://localhost:3000/group/' + value, {
+            method: "PATCH",
+            headers: {'Content-Type' : 'application/ jason'},
+            body: JSON.stringify({
+                name: value
+            })
+        })
+        .then(res => res.json())
+        // .then(data => this.setState({groupList: data}))
+        .then(data => console.log(data))
+    }
+    
+
     render() {
         return (
             <div>
@@ -26,7 +39,7 @@ class GroupList extends Component {
                 {this.state.groupList.map((group, idx) => {
                     return (
                         <>
-                        <div><GroupItem name={group.name}/></div>
+                        <div><GroupItem name={group.name} callGroupName={this.callGroupName}/></div>
                         
                         </>
                     )          

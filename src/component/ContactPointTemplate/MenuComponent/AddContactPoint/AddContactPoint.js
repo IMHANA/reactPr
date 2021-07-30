@@ -36,7 +36,7 @@ class AddContactPoint extends Component {
                 groupId : this.state.group,
                 name : this.state.name,
                 tel : this.state.tel,
-                email : 1111776781,
+                email : this.state.email,
                 bookmark : this.state.bookmark,
                 memo : this.state.memo
             })

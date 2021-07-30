@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './GroupItem.css'
 
 
 class GroupItem extends Component {
@@ -7,6 +6,8 @@ class GroupItem extends Component {
     state = {
         // input: '',
         // groupList: [],
+        btn1 : '수정',
+        btn2 : '삭제',
         hover: false
     }
 
@@ -16,50 +17,60 @@ class GroupItem extends Component {
         }));
     }
     // 함수
-    onMouseEnterHandler = (e) => {
+    onMouseEnterHandler = () => {
         this.setState({hover: true});
         console.log(this.state.hover+'')
-        //document.getElementsByClassName('hoverBtn').addClass('hover');
-        //this.handleHover()
-        // let btn = document.getElementById('hoverBtn');
-        // btn.style.display = 'block';
-        
-            // console.log('작동하니? 1')
-            //document.getElementsByClassName('hoverBtn').style.display = 'inline';
-
     }
 
-    onMouseLeaveHandler = (e) => {
+    onMouseLeaveHandler = () => {
         this.setState({hover: false})
-        //document.getElementsByClassName('hoverBtn').removeClass('hover');
-        //this.handleHover()
-        // let btn = document.getElementById('hoverBtn');
-        // btn.style.display = 'none';
-        
-            // console.log('작동하니? 2')
-            //document.getElementsByClassName('hoverBtn').style.display = 'none';
-    
     }
 
+    editGroupName = () => {
+
+    }
+
+    deleteGroupName = () => {
+        let target = '';
+        console.log(target);
+        // fetch('http://localhist:3000/group/')
+    }
+    
+    //확인버튼을 눌렀을 떄 이벤트
+    clickBtn = (value) => {
+        if(this.state.btn1 === '확인') {
+            this.props.callGroupName(value);
+        } else {
+            console.log('그룹명 수정 실패');
+            this.setState({btn1: '수정'});
+        }
+    }
 
     render() {
         return (
             <>
             <span onMouseOver={this.onMouseEnterHandler} onMouseLeave={this.onMouseLeaveHandler}>
-                {this.props.name}
+                {
+                    this.state.btn1 === '수정' ?
+                    this.props.name
+                    :
+                    <input 
+                        type="text"
+                        value={this.props.name}
+                    />  
+                }
             
             {/* <span className={this.state.hover === false ? 'hoverBtn' : ''}> */}
             {
                 this.state.hover &&
                 (
                 <span >
-                <button >수정</button>
-                <button >삭제</button>
+                <button onClick={this.editGroupName}>{this.state.btn1}</button>
+                <button onClick={this.deleteGroupName}>{this.state.btn2}</button>
                 </span>
                 )
-                
-                
             }
+            
             </span>
             </>
         );
